@@ -10,18 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: [3.10.12]
-
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python-version }}
 
       - name: Create .env file
         run: |
@@ -49,7 +40,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           source: "."
-          target: "/home/ubuntu/environment/new_deploy"
+          target: "/home/ubuntu/environment/my_project"
           rm: true
 
       - name: Create deployment

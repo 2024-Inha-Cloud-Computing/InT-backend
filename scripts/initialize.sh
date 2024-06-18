@@ -8,7 +8,7 @@ sudo apt-get update
 sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
 
 # 프로젝트 의존성 설치
-python install_requirements.py
+#python install_requirements.py
 
 # 크롬 드라이버 설치
 cd crawling_processing/crawling

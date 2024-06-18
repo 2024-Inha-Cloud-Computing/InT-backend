@@ -3,7 +3,7 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/environment/my_project
+    destination: /home/ubuntu/environment/new_deploy
     overwrite: yes
 
 hooks:
@@ -11,7 +11,7 @@ hooks:
     - location: scripts/stop.sh
       runas: root
   AfterInstall:
-    - location: scripts/deploy.sh
+    - location: scripts/initialize.sh
       runas: root
   ApplicationStart:
     - location: scripts/start.sh

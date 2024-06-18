@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# 프로젝트 디렉토리로 이동
+cd /home/ubuntu/environment/my_project
+
+# 최신 코드 가져오기
+git pull origin master
+
+# 필요한 패키지 설치
+sudo apt-get update
+sudo apt-get install -y python3-pip
+pip3 install -r requirements.txt

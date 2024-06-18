@@ -22,7 +22,7 @@ env_path = BASE_DIR / '.env'
 # 퍼블릭 IP를 .env 파일에 업데이트
 update_env_with_public_ip(env_path)
 # .env 파일 로드
-load_dotenv(env_path)
+#load_dotenv(env_path)
 # 환경 변수에서 SECRET_KEY 가져오기
 SECRET_KEY = os.getenv('SECRET_KEY')
 # 환경 변수에서 퍼블릭 IP 주소 가져오기

@@ -7,5 +7,4 @@ cd /home/ubuntu/environment/new_deploy
 streamlit run chatbot_streamlit.py
 
 #cd InT
-
 #python manage.py runserver 0.0.0.0:8000

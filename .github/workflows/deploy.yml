@@ -33,7 +33,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
           pip install --upgrade pip
-          python install_requirements.py
+          pip install -r requirements.txt
 
       # .env 파일 생성
       - name: Create .env file
@@ -58,13 +58,14 @@ jobs:
       - name: Collect static files and run migrations
         run: |
           source venv/bin/activate
-          cd /home/runner/work/InT-backend/InT-backend
+          cd InT  # manage.py 파일이 있는 디렉토리로 이동
           python manage.py collectstatic --noinput
           python manage.py migrate
 
       # 파일 및 폴더를 압축하여 deploy.zip으로 저장
       - name: Zip distributions
-        run: zip -r deploy.zip .
+        run: |
+          zip -r deploy.zip .
 
       # AWS 인증 정보 설정
       - name: AWS configure credentials

@@ -33,7 +33,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
           pip install --upgrade pip
-          python install_requirements.py
+          pip install -r requirements.txt
 
       # .env 파일 생성
       - name: Create .env file
@@ -60,12 +60,8 @@ jobs:
         run: |
           source venv/bin/activate
           cd InT  # manage.py 파일이 있는 디렉토리로 이동
+          cat .env
           python manage.py migrate
-
-      # 파일 및 폴더를 압축하여 deploy.zip으로 저장
-      - name: Zip distributions
-        run: |
-          zip -r deploy.zip .
 
       # AWS 인증 정보 설정
       - name: AWS configure credentials
@@ -73,18 +69,19 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-1  # CodeDeploy 및 기본 리전
+          aws-region: ap-southeast-1
 
-      # S3로 압축 파일 업로드 (S3 버킷 리전을 명시적으로 지정)
-      - name: Upload to S3
-        run: aws s3 cp ./deploy.zip s3://${{ secrets.AWS_BUCKET_NAME }}/public/ --region us-east-1
-
-      # AWS CodeDeploy를 사용하여 배포 (CodeDeploy 리전 명시적으로 지정)
+      # AWS CodeDeploy를 사용하여 배포
       - name: Deploy with AWS CodeDeploy
         run: |
+          zip -r deploy.zip .  # 현재 디렉토리를 압축하여 zip 파일 생성
+          aws deploy push \
+            --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
+            --s3-location s3://${{ secrets.AWS_BUCKET_NAME }}/deploy.zip \
+            --ignore-hidden-files
           aws deploy create-deployment \
             --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --deployment-group-name ${{ secrets.CODEDEPLOY_DG_NAME }} \
-            --s3-location bucket=${{ secrets.AWS_BUCKET_NAME }},bundleType=zip,key=public/deploy.zip \
+            --s3-location bucket=${{ secrets.AWS_BUCKET_NAME }},bundleType=zip,key=deploy.zip \
             --region ap-southeast-1

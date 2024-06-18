@@ -15,27 +15,14 @@ jobs:
         python-version: [3.10.12]
 
     steps:
-      # 소스 코드 체크아웃
       - name: Checkout source code
         uses: actions/checkout@v2
 
-      # Python 환경 설정
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
-      # 의존성 설치 및 시스템 패키지 업데이트
-      - name: Install dependencies and update system packages
-        run: |
-          python -m venv venv
-          source venv/bin/activate
-          sudo apt-get update
-          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
-          pip install --upgrade pip
-          python install_requirements.py
-
-      # .env 파일 생성
       - name: Create .env file
         run: |
           cd InT
@@ -55,25 +42,21 @@ jobs:
           echo "AWS_BUCKET_NAME=${{ secrets.AWS_BUCKET_NAME }}" >> .env
           echo "AWS_REGION=${{ secrets.AWS_REGION }}" >> .env
 
-      # 파일 및 폴더를 압축하여 deploy.zip으로 저장
-      - name: Zip distributions
-        run: |
-          zip -r deploy.zip . -x "venv/*"  # venv 폴더 제외하고 압축
-
-      # AWS 인증 정보 설정
-      - name: AWS configure credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Upload files to EC2
+        uses: appleboy/scp-action@v0.1.4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-1
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "."
+          target: "/home/ubuntu/environment/new_deploy"
+          rm: true
 
-      # CodeDeploy 배포 생성
       - name: Create deployment
         run: |
           aws deploy create-deployment \
             --application-name ${{ secrets.CODEDEPLOY_APP_NAME }} \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --deployment-group-name ${{ secrets.CODEDEPLOY_DG_NAME }} \
-            --s3-location bundleType=zip,bucket=${{ secrets.AWS_BUCKET_NAME }},key=deploy.zip \
-            --region ap-southeast-1
+            --description "Deploying from GitHub Actions" \
+            --ignore-application-stop-failures

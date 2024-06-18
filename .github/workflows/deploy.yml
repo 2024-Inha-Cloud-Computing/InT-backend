@@ -13,6 +13,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.10.12]
+
     steps:
       # 소스 코드 체크아웃
       - name: Checkout source code
@@ -22,14 +23,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.10.12'
+          python-version: ${{ matrix.python-version }}
 
-      # 의존성 설치
-      - name: Install dependencies
+      # 의존성 설치 및 시스템 패키지 업데이트
+      - name: Install dependencies and update system packages
         run: |
           python -m venv venv
           source venv/bin/activate
-          sudo apt install update
+          sudo apt-get update
+          sudo apt-get install -y build-essential libssl-dev libffi-dev python3-dev
           pip install --upgrade pip
           pip install -r requirements.txt
 
@@ -73,7 +75,7 @@ jobs:
           
       # S3로 압축 파일 업로드
       - name: Upload to S3
-        run: aws s3 cp ./deploy.zip s3://${{secrets.AWS_BUCKET_NAME}}/public/
+        run: aws s3 cp ./deploy.zip s3://${{ secrets.AWS_BUCKET_NAME }}/public/
 
       # AWS CodeDeploy를 사용하여 배포
       - name: Deploy with AWS CodeDeploy

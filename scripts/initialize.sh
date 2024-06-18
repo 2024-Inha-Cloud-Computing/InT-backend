@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 프로젝트 디렉토리로 이동
-cd ~/environment
+cd /home/ubuntu/environment/new_deploy
 
 # Python 가상 환경 설정 및 활성화
 python3 -m venv venv

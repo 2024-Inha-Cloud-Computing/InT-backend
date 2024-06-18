@@ -38,9 +38,6 @@ jobs:
       # .env 파일 생성
       - name: Create .env file
         run: |
-          pwd
-          ls
-          tree ./top
           cd InT
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "PUBLIC_IP=${{ secrets.PUBLIC_IP }}" >> .env

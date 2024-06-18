@@ -12,4 +12,4 @@ python install_requirements.py
 
 # 크롬 드라이버 설치
 cd crawling_processing/crawling
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb

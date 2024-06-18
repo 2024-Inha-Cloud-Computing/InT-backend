@@ -45,8 +45,8 @@ class LoginAPIView(APIView):
             
             # TODO 성향에 들어갈 수 있도록 DB에서 유저가 첫 로그인 인지 확인
             #      첫 회원인 경우 response를 보내고 DB 수정
-            
-            # Users.objects.filter(id=username).update(first_login=1)
+            if user.first_login == 0:
+                Users.objects.filter(id=username).update(first_login=1)
             return Response(
                 {
                     "refresh": str(refresh),

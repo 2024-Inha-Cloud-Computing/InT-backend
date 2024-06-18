@@ -170,3 +170,5 @@ cython_debug/
 .~c9*
 crawling_processing/crawling/google-chrome-stable_current_amd64.deb
 crawling_processing/.env
+
+InT/cache

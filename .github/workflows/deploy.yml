@@ -61,7 +61,6 @@ jobs:
           source venv/bin/activate
           cd InT  # manage.py 파일이 있는 디렉토리로 이동
           cat .env
-          python manage.py collectstatic --noinput
           python manage.py migrate
 
       # 파일 및 폴더를 압축하여 deploy.zip으로 저장

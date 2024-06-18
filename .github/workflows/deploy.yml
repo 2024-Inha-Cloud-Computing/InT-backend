@@ -30,6 +30,7 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           sudo apt install update
+          pip install --upgrade pip
           pip install -r requirements.txt
 
       # .env 파일 생성

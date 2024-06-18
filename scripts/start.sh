@@ -32,7 +32,7 @@ echo "Activated directory: $(pwd)" >> $LOGFILE
   echo "Activated directory for Django: $(pwd)"
 
   echo "Starting Django server at $(date)"
-  nohup python3 manage.py runserver 0.0.0.0:8000 &>> /home/ubuntu/environment/new_deploy/django.log &
+  nohup python manage.py runserver 0.0.0.0:8000 &>> /home/ubuntu/environment/new_deploy/django.log &
   echo "Django server started at $(date)"
 } >> $LOGFILE 2>&1
 

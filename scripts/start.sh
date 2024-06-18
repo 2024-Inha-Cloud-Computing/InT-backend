@@ -4,7 +4,7 @@
 cd /home/ubuntu/environment/new_deploy
 
 # 서버 시작
-streamlit run chatbot_streamlit.py &
+streamlit run chatbot_streamlit.py
 
 #cd InT
 

@@ -8,4 +8,4 @@ cd /home/ubuntu/environment/new_deploy
 
 cd InT
 
-python manage.py runserver 0.0.0.0:8000
+#python manage.py runserver 0.0.0.0:8000

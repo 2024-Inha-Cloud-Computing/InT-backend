@@ -18,8 +18,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # .env 파일 경로 (부모 디렉토리)
-#env_path = BASE_DIR / '.env'
-env_path = 'home/ubuntu/environment/InT/.env'
+env_path = BASE_DIR / '.env'
 # 퍼블릭 IP를 .env 파일에 업데이트
 update_env_with_public_ip(env_path)
 # .env 파일 로드

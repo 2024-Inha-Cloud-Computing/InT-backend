@@ -4,7 +4,6 @@
 cd /home/ubuntu/environment/new_deploy
 
 # 서버 시작
-source venv/bin/activate
 streamlit run chatbot_streamlit.py &
 
 cd InT

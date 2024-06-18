@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 프로젝트 디렉터리로 이동
-cd /home/ubuntu/environment
+cd ~/environment
 
 # 서버 시작
 streamlit run chatbot_streamlit.py
